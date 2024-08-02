@@ -519,7 +519,7 @@ import Foundation
 //    return (dict.values.reduce(1,*) - 1)
 //}
 //    
-//  N으로 표현 
+//  N으로 표현
 //func solution(_ N: Int, _ number: Int) -> Int {
 //    if N == number {
 //        return 1
@@ -553,3 +553,27 @@ import Foundation
 //}
 //print(solution(5, 12))
 //print(solution(2, 11))
+// 캐시 
+func solution(_ cacheSize:Int, _ cities:[String]) -> Int {
+    var str:[String] = []
+    var re = 0
+    for i in cities {
+        let city = i.lowercased()
+        if let index = str.firstIndex(of: city) { // 제거할게 있다면
+            str.append(str.remove(at: index).lowercased())
+            re += 1
+            continue
+        }
+        
+        if str.count == cacheSize && cacheSize > 0  {
+            str.removeFirst()
+        }
+        if cacheSize > 0 {
+            str.append(city)
+        }
+        re += 5
+
+    }
+    
+    return re
+}
