@@ -488,19 +488,34 @@ import Foundation
 //print(solution(["banana", "apple", "rice", "pork", "pot"], [3, 2, 2, 2, 1], ["chicken", "apple", "apple", "banana", "rice", "apple", "pork", "banana", "pork", "rice", "pot", "banana", "apple", "banana"])
 //)
 
-func solution(_ arr1:[[Int]], _ arr2:[[Int]]) -> [[Int]] {
-    var re:[[Int]] = []
-    for i in arr1 {
-        var sum:[Int] = []
-        for j in 0..<i.count {
-            var su = 0
-            for (index,z) in arr2.enumerated() {
-                su += (i[index] * z[j])
-            }
-            sum.append(su)
-        }
-        re.append(sum)
-    }
-    return re
-}
-print(solution([[1, 4], [3, 2], [4, 1]], [[3, 3], [3, 3]]))
+// 행렬의 곱셈
+//func solution(_ arr1:[[Int]], _ arr2:[[Int]]) -> [[Int]] {
+//    let rowsA = arr1.count
+//    let colsA = arr1[0].count
+//    let rowsB = arr2.count
+//    let colsB = arr2[0].count
+//    
+//    var result = Array(repeating: Array(repeating: 0, count: colsB), count: rowsA)
+//    
+//    for i in 0..<rowsA {
+//        for j in 0..<colsB {
+//            for k in 0..<colsA {
+//                result[i][j] += arr1[i][k] * arr2[k][j]
+//            }
+//        }
+//    }
+//    return result
+//}
+//print(solution([[1, 4], [3, 2], [4, 1]], [[3, 3], [3, 3]]))
+
+// 의상
+//func solution(_ clothes:[[String]]) -> Int {
+//    var dict = [String: Int]()
+//    
+//    for i in clothes {
+//        dict[i[1], default: 1] += 1
+//    }
+//    
+//    return (dict.values.reduce(1,*) - 1)
+//}
+//    
