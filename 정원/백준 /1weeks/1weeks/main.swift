@@ -519,3 +519,37 @@ import Foundation
 //    return (dict.values.reduce(1,*) - 1)
 //}
 //    
+//  N으로 표현 
+//func solution(_ N: Int, _ number: Int) -> Int {
+//    if N == number {
+//        return 1
+//    }
+//    
+//    var dp = Array(repeating: Set<Int>(), count: 9)
+//    
+//    for i in 1...8 {
+//        dp[i].insert(Int(String(repeating: String(N), count: i))!)
+//    }
+//    
+//    for i in 1...8 {
+//        for j in 1..<i {
+//            for op1 in dp[j] {
+//                for op2 in dp[i-j] {
+//                    dp[i].insert(op1 + op2)
+//                    dp[i].insert(op1 - op2)
+//                    dp[i].insert(op1 * op2)
+//                    if op2 != 0 {
+//                        dp[i].insert(op1 / op2)
+//                    }
+//                }
+//            }
+//        }
+//        if dp[i].contains(number) {
+//            return i
+//        }
+//    }
+//    
+//    return -1
+//}
+//print(solution(5, 12))
+//print(solution(2, 11))
