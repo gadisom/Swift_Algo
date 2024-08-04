@@ -553,27 +553,94 @@ import Foundation
 //}
 //print(solution(5, 12))
 //print(solution(2, 11))
-// 캐시 
-func solution(_ cacheSize:Int, _ cities:[String]) -> Int {
-    var str:[String] = []
-    var re = 0
-    for i in cities {
-        let city = i.lowercased()
-        if let index = str.firstIndex(of: city) { // 제거할게 있다면
-            str.append(str.remove(at: index).lowercased())
-            re += 1
-            continue
-        }
-        
-        if str.count == cacheSize && cacheSize > 0  {
-            str.removeFirst()
-        }
-        if cacheSize > 0 {
-            str.append(city)
-        }
-        re += 5
+// 캐시
+//func solution(_ cacheSize:Int, _ cities:[String]) -> Int {
+//    var str:[String] = []
+//    var re = 0
+//    for i in cities {
+//        let city = i.lowercased()
+//        if let index = str.firstIndex(of: city) { // 제거할게 있다면
+//            str.append(str.remove(at: index).lowercased())
+//            re += 1
+//            continue
+//        }
+//        
+//        if str.count == cacheSize && cacheSize > 0  {
+//            str.removeFirst()
+//        }
+//        if cacheSize > 0 {
+//            str.append(city)
+//        }
+//        re += 5
+//
+//    }
+//    
+//    return re
+//}
 
-    }
-    
-    return re
-}
+//import Foundation
+//
+//func solution(_ cacheSize: Int, _ cities: [String]) -> Int {
+//    var cacheStore: [String: Int] = [:]  // 도시 이름과 최근 사용 시간을 저장하는 딕셔너리
+//    var runTime = 0
+//    var currentTime = 0
+//
+//    for city in cities {
+//        let cityLower = city.lowercased()
+//
+//        if let _ = cacheStore[cityLower] {
+//            // 캐시 히트
+//            runTime += 1
+//        } else {
+//            // 캐시 미스
+//            runTime += 5
+//            if cacheStore.count >= cacheSize && cacheSize > 0 {
+//                // 캐시가 가득 찼다면 LRU 항목 제거
+//                let lru = cacheStore.min(by: { $0.value < $1.value })!
+//                cacheStore.removeValue(forKey: lru.key)
+//            }
+//        }
+//
+//        if cacheSize > 0 {
+//            // 캐시에 항목 추가 또는 업데이트
+//            cacheStore[cityLower] = currentTime
+//        }
+//
+//        currentTime += 1
+//    }
+//
+//    return runTime
+//}
+//solution(3, ["Jeju", "jeju", "Seoul", "Jeju", "Pangyo", "Seoul", "Jeju", "Pangyo", "Seoul"])
+//
+// 기능개발 
+//func solution(_ progresses:[Int], _ speeds:[Int]) -> [Int] {
+//    var an:[Int] = []
+//    var re:[Int] = []
+//    var cnt = 1
+//    for (i,j) in zip(progresses,speeds) {
+//        var num = (100 - i) % j
+//        if num != 0 {
+//            num = (100 - i) / j + 1
+//        } else {
+//            num = (100 - i) / j
+//        }
+//        if let first = an.first {
+//            if first >= num {
+//                an.append(num)
+//            } else {
+//                re.append(an.count)
+//                an.removeAll()
+//                an.append(num)
+//            }
+//        } else {
+//            an.append(num)
+//        }
+//    }
+//    if !an.isEmpty {
+//        re.append(an.count)
+//    }
+//    return re
+//}
+
+solution([95, 90, 99, 99, 80, 99] , [1, 1, 1, 1, 1, 1] )
