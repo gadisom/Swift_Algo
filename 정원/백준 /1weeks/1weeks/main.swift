@@ -613,7 +613,7 @@ import Foundation
 //}
 //solution(3, ["Jeju", "jeju", "Seoul", "Jeju", "Pangyo", "Seoul", "Jeju", "Pangyo", "Seoul"])
 //
-// 기능개발 
+ //기능개발
 //func solution(_ progresses:[Int], _ speeds:[Int]) -> [Int] {
 //    var an:[Int] = []
 //    var re:[Int] = []
@@ -643,4 +643,56 @@ import Foundation
 //    return re
 //}
 
-solution([95, 90, 99, 99, 80, 99] , [1, 1, 1, 1, 1, 1] )
+
+// 튜플
+//import Foundation
+//
+//func solution(_ s:String) -> [Int] {
+//    var st = Array(s)
+//    st.removeFirst()
+//    st.removeLast()
+//    var num = ""
+//    var re: [Int] = []
+//    var ans:[Int: [Int]] = [:]
+//    var currentIndex = 0
+//    var result:[Int] = []
+//    while currentIndex < st.count {
+//        if st[currentIndex] == "{" {
+//            currentIndex += 1
+//            while true {
+//                if st[currentIndex] == "}" {
+//                    if re.isEmpty {
+//                        re.append(Int(num)!)
+//                    }
+//                    if let last = re.last {
+//                        if "\(last)" != num {
+//                            re.append(Int(num)!)
+//                        }
+//                    }
+//                    ans[re.count, default : []] = re
+//                    re.removeAll()
+//                    num = ""
+//                    currentIndex += 1
+//                    break
+//                } else if st[currentIndex] == "," && !num.isEmpty{
+//                    re.append(Int(num)!)
+//                    num = ""
+//                } else if let number = Int("\(st[currentIndex])"){
+//                    num.append("\(number)")
+//                }
+//                currentIndex += 1
+//            }
+//        } else {
+//            currentIndex += 1
+//        }
+//    }
+//    for i in 1...ans.count {
+//        var se = Set(ans[i, default: []]) // set 으로 바꿈
+//        var com = se.subtracting(result)
+//        result.append(Array(com)[0])
+//        
+//    }
+//    return result
+//}
+//
+//solution("{{4,2,3},{3},{2,3,4,1},{2,3}}")
