@@ -2,11 +2,12 @@
 //  main.swift
 //  1weeks
 //
-//  Created by 최승호 on 8/2/24.
+//  Created by 최승호 on 8/5/24.
 //
 
-/// 부녀회장이 될테야 (2775)
-/// Bronze 1 (dp알고리즘)
+import Foundation
+
+// 부녀회장이 될테야 (dp알고리즘)
 //let count = Int(readLine()!)!
 //var floor: [Int] = []
 //var hosu: [Int] = []
@@ -38,3 +39,15 @@
 //    
 //    print(apart[floor[i]][hosu[i]])
 //}
+
+// 직사각형 별찍기 (lv.1)
+//let n = readLine()!.components(separatedBy: [" "]).map { Int($0)! }
+//let (a, b) = (n[0], n[1])
+//
+//for _ in 0..<b {
+//    for _ in 0..<a {
+//        print("*",terminator: "")
+//    }
+//    print("")
+//}
+
