@@ -316,9 +316,64 @@ import UIKit
 //solution(1, 11)
 
 // 모의고사
-func solution(_ answers:[Int]) -> [Int] {
-    let supo1 = [1,2,3,4,5] // 5
-    let supo2 = [2,1,2,3,2,4,2,5]   // 8
-    let supo3 = [3,3,1,1,2,2,4,4,5,5]   //10
-    return []
+//func solution(_ answers:[Int]) -> [Int] {
+//    let supo1 = [1,2,3,4,5] // 5
+//    let supo2 = [2,1,2,3,2,4,2,5]   // 8
+//    let supo3 = [3,3,1,1,2,2,4,4,5,5]   //10
+//    var rank: [Int] = [0,0,0]
+//    
+//    for i in 0..<answers.count {
+//        let answer = answers[i]
+//        let supo1Ans = supo1[i%5]
+//        let supo2Ans = supo2[i%8]
+//        let supo3Ans = supo3[i%10]
+//        
+//        if supo1Ans == answer {
+//            rank[0] += 1
+//        }
+//        if supo2Ans == answer {
+//            rank[1] += 1
+//        }
+//        if supo3Ans == answer {
+//            rank[2] += 1
+//        }
+//    }
+//
+//    let maxScore = rank.max()!
+//    var result: [Int] = []
+//        
+//    for (index, score) in rank.enumerated() {
+//        if score == maxScore {
+//            result.append(index + 1)
+//        }
+//    }
+//    return result
+//}
+//solution([1,2,3,4,5])
+
+// 기사단원의 무기
+func solution(_ number:Int, _ limit:Int, _ power:Int) -> Int {
+    print(Int(sqrt(Double(number))))
+    return Array(1...number).map{ countOfYaksu($0) }.reduce(0) { partialResult, yaksu in
+        yaksu > limit ? partialResult + power : partialResult + yaksu
+    }
 }
+
+func countOfYaksu(_ n: Int) -> Int{
+    var count = 0
+    var i = 1
+    while i*i <= n {
+        if n % i == 0{
+            if i * i == n {
+                count += 1
+                
+            } else {
+                count += 2
+            }
+        }
+        i += 1
+    }
+    return count
+}
+
+solution(16, 3, 2)
