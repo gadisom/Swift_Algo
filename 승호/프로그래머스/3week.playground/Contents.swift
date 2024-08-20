@@ -132,34 +132,83 @@ import UIKit
 //}
 
 // 실패율
-func solution(_ N:Int, _ stages:[Int]) -> [Int] {
-    // 각 스테이지의 실패율을 담은 결과 배열
-    var result = Array(repeating: 0.0, count: N)
+//func solution(_ N:Int, _ stages:[Int]) -> [Int] {
+//    var stageCount = Array(repeating: 0, count: N + 1)
+//        var players = stages.count
+//
+//        // 각 스테이지에 도달한 사람 수 계산
+//        for stage in stages {
+//            if stage <= N {
+//                stageCount[stage] += 1
+//            }
+//        }
+//
+//        var result = [(stage: Int, failRate: Double)]()
+//
+//        // 실패율 계산
+//        for i in 1...N {
+//            let failRate = Double(stageCount[i]) / Double(players)
+//            players -= stageCount[i]
+//            result.append((i, failRate))
+//        }
+//
+//        // 실패율을 기준으로 정렬
+//        result.sort {
+//            if $0.failRate == $1.failRate {
+//                return $0.stage < $1.stage
+//            }
+//            return $0.failRate > $1.failRate
+//        }
+//
+//        // 결과 추출
+//        return result.map { $0.stage }
+//}
+//let sol = solution( 5, [1, 1, 1, 2, 3, 4])
+
+// 옹알이(2)
+func solution(_ babbling:[String]) -> Int {
+    let words = ["aya", "ye", "woo", "ma"]
+    var babbling = babbling
+    var count = 0
+    var temp: Character = " "
+    var canSpeak: Bool = true
+    var sol = ""
     
-    // 실패율 = 스테이지에 도달했으나 아직 클리어 하지 못한 수 / 스테이지에 도달한 수
-    // -> 클리어x 수 = 스테이지보다 작거나 같은 스테이지에 있는 수
-    // -> 클리어o 수 = 스테이지보다 큰 스테이지에 있는 수
-    // -> 스테이지에 도달한 수 = 같은 스테이지 수 + 클리어o 수
-    
-    for i in 0..<result.count {
-        let yetClear = Double(stages.filter{ $0 == i+1 }.count)
-        let clear = Double(stages.filter{ $0 >= i+1 }.count)
-        
-        result[i] = yetClear/clear
+    for i in 0..<4 {
+        babbling = babbling.map{ $0.replacingOccurrences(of: words[i], with: "\(i)") }
     }
+    print(babbling)
+    babbling = babbling.filter{ Int($0) != nil }
     
-    var resultDict = Dictionary(uniqueKeysWithValues: zip((1...N), result))
-    
-    let sol = resultDict.sorted{
-        if $0.value == $1.value {
-            return $0.key < $1.key
+    for word in babbling {
+        canSpeak = true
+        for char in word {
+            print("char: \(char), temp: \(temp)")
+            if char == temp {
+                canSpeak = false
+            }
+            
+            temp = char
         }
-        
-        return $0.value > $1.value
-    }.map{
-        $0.key
+        if canSpeak {
+            print("\(word) is canSpaek")
+            count += 1
+        }
+        temp = " "
     }
-    
-    return sol
+    print("count:",count)
+//    sol = babbling.joined().filter{ Int(String($0)) != nil }
+    print(sol)
+//    var previousCharacter: Character? = nil
+//    
+//    for character in sol {
+//        if character != previousCharacter {
+//            temp.append(character)
+//            previousCharacter = character
+//        }
+//    }
+//    
+    print(temp)
+    return count
 }
-solution(2, [1, 1, 1, 1])
+solution(["aya", "yee", "u", "maa"])
