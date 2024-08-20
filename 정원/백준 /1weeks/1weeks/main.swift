@@ -696,3 +696,232 @@ import Foundation
 //}
 //
 //solution("{{4,2,3},{3},{2,3,4,1},{2,3}}")
+
+// 피로도
+
+//func solution(_ k:Int, _ dungeons:[[Int]]) -> Int {
+//    var max_num = -1
+//    for (i_index, i_element) in dungeons.enumerated() { // i_index 부분 없앤다.
+//        var j = dungeons
+//        j.remove(at: i_index)
+//        var st = k
+//        var cnt = 0
+//        if st - i_element[0] < 0 {
+//            break
+//        } else {
+//            cnt += 1
+//            st -= i_element[1]
+//        }
+//        for _ in 0..<j.count{
+//            var st2 = st
+//            var cnt2 = cnt
+//            for (j_index, j_element) in j.enumerated() {
+//                if st2 - j_element[0] < 0 {
+//                    break
+//                } else {
+//                    cnt2 += 1
+//                    st2 -= j_element[1]
+//                }
+//            }
+//            max_num = max(max_num, cnt2)
+//            j.append(j.removeFirst())
+//        }
+//    }
+//    return max_num
+//}
+//print(solution(80, [[80,20],[50,40],[30,10]]))
+
+
+//func solution(_ k:Int, _ dungeons:[[Int]]) -> Int {
+//    var maxDugeons = 0
+//    var visited = Array(repeating: false , count: dungeons.count)
+//    func backtrack(_ currentFatigue: Int, _ count: Int) {
+//        for i in 0..<dungeons.count {
+//            let minFatigue = dungeons[i][0]
+//            let consumeFatigue = dungeons[i][1]
+//            
+//            if !visited[i] && currentFatigue >= minFatigue {
+//                visited[i] = true
+//                backtrack(currentFatigue - consumeFatigue, count + 1)
+//                visited[i] = false
+//            }
+//            
+//        }
+//    }
+//    backtrack(k, 0)
+//    return maxDugeons
+//}
+
+struct Stack<T> {
+    private var elements: [T] = []
+
+    mutating func push(_ element: T) {
+        elements.append(element)
+    }
+
+    mutating func pop() -> T? {
+        return elements.popLast()
+    }
+
+    func size() -> Int {
+        return elements.count
+    }
+
+    func isEmpty() -> Bool {
+        return elements.isEmpty
+    }
+
+    func top() -> T? {
+        return elements.last
+    }
+}
+
+//let n = Int(readLine()!)!  // 명령의 수
+//var stack = Stack<Int>()
+//
+//for _ in 0..<n {
+//    let command = readLine()!.split(separator: " ")
+//    
+//    switch command[0] {
+//    case "push":
+//        let value = Int(command[1])!
+//        stack.push(value)
+//        
+//    case "pop":
+//        if let poppedValue = stack.pop() {
+//            print(poppedValue)
+//        } else {
+//            print(-1)
+//        }
+//        
+//    case "size":
+//        print(stack.size())
+//        
+//    case "empty":
+//        print(stack.isEmpty() ? 1 : 0)
+//        
+//    case "top":
+//        if let topValue = stack.top() {
+//            print(topValue)
+//        } else {
+//            print(-1)
+//        }
+//        
+//    default:
+//        break
+//    }
+//}
+
+struct Queue<T> {
+    private var elements: [T] = []
+
+    // 큐에 요소를 추가하는 메서드 (Enqueue)
+    mutating func enqueue(_ element: T) {
+        elements.append(element)
+    }
+
+    // 큐에서 요소를 제거하고 반환하는 메서드 (Dequeue)
+    mutating func dequeue() -> T? {
+        return elements.isEmpty ? nil : elements.removeFirst()
+    }
+
+    // 큐의 첫 번째 요소를 반환하는 메서드 (Peek)
+    func peek() -> T? {
+        return elements.first
+    }
+    
+    func back() -> T? {
+        return elements.last
+    }
+    
+    // 큐가 비어있는지 확인하는 메서드
+    func isEmpty() -> Bool {
+        return elements.isEmpty
+    }
+
+    // 큐의 요소 개수를 반환하는 메서드
+    func count() -> Int {
+        return elements.count
+    }
+}
+//
+//let n = Int(readLine()!)!
+//
+//var queue = Queue<Int>()
+//
+//for _ in 0..<n {
+//    let command = readLine()!.split(separator: " ")
+//    switch command[0] {
+//        case "push":
+//            let value = Int(command[1])!
+//            queue.enqueue(value)
+//    
+//        case "pop":
+//            if let poppedValue = queue.dequeue() {
+//                print(poppedValue)
+//            } else {
+//                print(-1)
+//            }
+//    
+//        case "size":
+//        print(queue.count())
+//    
+//        case "empty":
+//            print(queue.isEmpty() ? 1 : 0)
+//    
+//        case "front":
+//            if let topValue = queue.peek() {
+//                print(topValue)
+//            } else {
+//                print(-1)
+//            }
+//        case "back":
+//            if let bottomValue = queue.back() {
+//                print(bottomValue)
+//            } else {
+//                print(-1)
+//            }
+//    
+//        default:
+//            break
+//        }
+//}
+
+while true {
+    var str = readLine()! // So when I die (the [first] I will see in (heaven) is a score list).
+
+    
+    if str == "." {
+        break
+    }
+    
+    var stack: [Character] = []
+    var isBalanced = true
+    
+    for char in str {
+        if char == "(" || char == "[" {
+            stack.append(char) // ( [
+        } else if char == ")" {
+            if stack.isEmpty || stack.last != "(" {
+                isBalanced = false
+                break
+            } else { //
+                stack.removeLast()
+            }
+        } else if char == "]" { //
+            if stack.isEmpty || stack.last != "[" {
+                isBalanced = false
+                break
+            } else {
+                stack.removeLast() // ( (
+            }
+        }
+    }
+    // 스택에 쌓인 괄호가 없어야 균형잡힌거다 ((([[[[[[
+    if isBalanced && stack.isEmpty {
+        print("yes")
+    } else {
+        print("no")
+    }
+}
+
