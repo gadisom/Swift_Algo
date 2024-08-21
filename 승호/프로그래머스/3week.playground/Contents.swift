@@ -166,49 +166,192 @@ import UIKit
 //let sol = solution( 5, [1, 1, 1, 2, 3, 4])
 
 // 옹알이(2)
-func solution(_ babbling:[String]) -> Int {
-    let words = ["aya", "ye", "woo", "ma"]
-    var babbling = babbling
-    var count = 0
-    var temp: Character = " "
-    var canSpeak: Bool = true
-    var sol = ""
-    
-    for i in 0..<4 {
-        babbling = babbling.map{ $0.replacingOccurrences(of: words[i], with: "\(i)") }
-    }
-    print(babbling)
-    babbling = babbling.filter{ Int($0) != nil }
-    
-    for word in babbling {
-        canSpeak = true
-        for char in word {
-            print("char: \(char), temp: \(temp)")
-            if char == temp {
-                canSpeak = false
-            }
-            
-            temp = char
-        }
-        if canSpeak {
-            print("\(word) is canSpaek")
-            count += 1
-        }
-        temp = " "
-    }
-    print("count:",count)
-//    sol = babbling.joined().filter{ Int(String($0)) != nil }
-    print(sol)
-//    var previousCharacter: Character? = nil
+//func solution(_ babbling:[String]) -> Int {
+//    let words = ["aya", "ye", "woo", "ma"]
+//    var babbling = babbling
+//    var count = 0
+//    var temp: Character = " "
+//    var canSpeak: Bool = true
+//    var sol = ""
 //    
-//    for character in sol {
-//        if character != previousCharacter {
-//            temp.append(character)
-//            previousCharacter = character
+//    for i in 0..<4 {
+//        babbling = babbling.map{ $0.replacingOccurrences(of: words[i], with: "\(i)") }
+//    }
+//    babbling = babbling.filter{ Int($0) != nil }
+//    
+//    for word in babbling {
+//        canSpeak = true
+//        for char in word {
+//            if char == temp {
+//                canSpeak = false
+//            }
+//            
+//            temp = char
+//        }
+//        if canSpeak {
+//            count += 1
+//        }
+//        temp = " "
+//    }
+//
+//    return count
+//}
+//solution(["aya", "yee", "u", "maa"])
+
+// [1차] 다트 게임
+//func solution(_ dartResult:String) -> Int {
+//    var dartResult = dartResult
+//    var tempScore = 0
+//    var tempScore2 = 0
+//    var score: [Int] = []
+//    var dartArr = dartResult.map{ String($0) }
+//    
+//    for i in dartArr {
+//        switch i {
+//        case "S","D","T":
+//            // S -> 1제곱, D -> 2제곱, T -> 3제곱
+//            tempScore = score.removeLast()
+//            
+//            if i == "D" {
+//                tempScore *= tempScore
+//            } else if i == "T" {
+//                tempScore *= (tempScore * tempScore)
+//            }
+//            
+//            score.append(tempScore)
+//            tempScore = 0
+//            
+//        case "1"..."9":
+//            tempScore += Int(i)!
+//            score.append(tempScore)
+//            
+//        case "0":
+//            if tempScore == 1 { // 직전의 문자가 1이고 직후 0이 오면 점수가 10인 경우
+//                score.removeLast()
+//                tempScore = 10
+//            }
+//            
+//            score.append(tempScore)
+//            
+//        case "*":
+//            tempScore = (score.removeLast()) * 2
+//            if score.count > 0 {
+//                tempScore2 = (score.removeLast()) * 2
+//                score.append(tempScore2)
+//            }
+//            score.append(tempScore)
+//            
+//            (tempScore, tempScore2) = (0, 0)
+//        case "#":
+//            tempScore = score.removeLast()
+//            tempScore *= -1
+//            score.append(tempScore)
+//            tempScore = 0
+//            
+//        default:
+//            print("default")
+//        }
+//    }
+//    return score.reduce(0, +)
+//}
+//solution("1S*2T*3S")
+
+// 문자열 나누기
+//func solution(_ s:String) -> Int {
+//    // 왼쪽부터 오른쪽으로 첫문자와 같은문자,다른문자 갯수가 다르면 문자열 분리 후 갯수 초기화후 다시진행.
+//    var firstChar = s.first!
+//    var sameCount = 0
+//    var diffCount = 0
+//    var str = s
+//    var resultString = str.map{
+//        if sameCount == diffCount, sameCount == 0 {
+//            firstChar = $0
+//        }
+//        if $0 == firstChar {
+//            print("same Char")
+//            sameCount += 1
+//        } else {
+//            print("diff Char")
+//            diffCount += 1
+//        }
+//        
+//        if sameCount == diffCount, sameCount > 0 {
+//            print("let seperate!")
+//            (sameCount, diffCount) = (0, 0)
+//            return "\($0) "
+//        }
+//        
+//        return "\($0)"
+//    }
+//    print("result: \(resultString.joined().split(separator: " "))")
+//    return resultString.joined().split(separator: " ").count
+//}
+//solution("abcdefghijk")
+
+// 바탕화면 정리
+//func solution(_ wallpaper:[String]) -> [Int] {
+//    var (left, right) = (50, 0)
+//    var (top, bottom) = (50, 0)
+//    var locations: [(Int,Int)] = []
+//    
+//    for (indexY, loc) in wallpaper.enumerated() {
+//        for (indexX, i) in loc.enumerated() {
+//            if i == "#" {
+//                locations.append((indexY, indexX))
+//            }
 //        }
 //    }
 //    
-    print(temp)
+//    for i in locations {
+//        if left > i.1 {
+//            left = i.1
+//        }
+//        
+//        if right < i.1 {
+//            right = i.1
+//        }
+//        
+//        if top > i.0 {
+//            top = i.0
+//        }
+//        
+//        if bottom < i.0 {
+//            bottom = i.0
+//        }
+//    }
+//    
+//    return [top, left, bottom+1, right+1]
+//}
+//solution(["..", "#."])
+
+// 약수의 개수와 덧셈
+func solution(_ left:Int, _ right:Int) -> Int {
+    var sol = (left...right).map{
+        if countOfYaksu($0) % 2 == 0 {
+            return $0
+        } else {
+            return $0 * -1
+        }
+    }
+    
+    return sol.reduce(0, +)
+}
+
+func countOfYaksu(_ n: Int) -> Int{
+    var count = 0
+    var i = 1
+    while i*i <= n {
+        if n % i == 0{
+            if i * i == n {
+                count += 1
+                
+            } else {
+                count += 2
+            }
+        }
+        i += 1
+    }
     return count
 }
-solution(["aya", "yee", "u", "maa"])
+
+solution(13, 17)
