@@ -132,34 +132,226 @@ import UIKit
 //}
 
 // 실패율
-func solution(_ N:Int, _ stages:[Int]) -> [Int] {
-    // 각 스테이지의 실패율을 담은 결과 배열
-    var result = Array(repeating: 0.0, count: N)
-    
-    // 실패율 = 스테이지에 도달했으나 아직 클리어 하지 못한 수 / 스테이지에 도달한 수
-    // -> 클리어x 수 = 스테이지보다 작거나 같은 스테이지에 있는 수
-    // -> 클리어o 수 = 스테이지보다 큰 스테이지에 있는 수
-    // -> 스테이지에 도달한 수 = 같은 스테이지 수 + 클리어o 수
-    
-    for i in 0..<result.count {
-        let yetClear = Double(stages.filter{ $0 == i+1 }.count)
-        let clear = Double(stages.filter{ $0 >= i+1 }.count)
-        
-        result[i] = yetClear/clear
-    }
-    
-    var resultDict = Dictionary(uniqueKeysWithValues: zip((1...N), result))
-    
-    let sol = resultDict.sorted{
-        if $0.value == $1.value {
-            return $0.key < $1.key
+//func solution(_ N:Int, _ stages:[Int]) -> [Int] {
+//    var stageCount = Array(repeating: 0, count: N + 1)
+//        var players = stages.count
+//
+//        // 각 스테이지에 도달한 사람 수 계산
+//        for stage in stages {
+//            if stage <= N {
+//                stageCount[stage] += 1
+//            }
+//        }
+//
+//        var result = [(stage: Int, failRate: Double)]()
+//
+//        // 실패율 계산
+//        for i in 1...N {
+//            let failRate = Double(stageCount[i]) / Double(players)
+//            players -= stageCount[i]
+//            result.append((i, failRate))
+//        }
+//
+//        // 실패율을 기준으로 정렬
+//        result.sort {
+//            if $0.failRate == $1.failRate {
+//                return $0.stage < $1.stage
+//            }
+//            return $0.failRate > $1.failRate
+//        }
+//
+//        // 결과 추출
+//        return result.map { $0.stage }
+//}
+//let sol = solution( 5, [1, 1, 1, 2, 3, 4])
+
+// 옹알이(2)
+//func solution(_ babbling:[String]) -> Int {
+//    let words = ["aya", "ye", "woo", "ma"]
+//    var babbling = babbling
+//    var count = 0
+//    var temp: Character = " "
+//    var canSpeak: Bool = true
+//    var sol = ""
+//    
+//    for i in 0..<4 {
+//        babbling = babbling.map{ $0.replacingOccurrences(of: words[i], with: "\(i)") }
+//    }
+//    babbling = babbling.filter{ Int($0) != nil }
+//    
+//    for word in babbling {
+//        canSpeak = true
+//        for char in word {
+//            if char == temp {
+//                canSpeak = false
+//            }
+//            
+//            temp = char
+//        }
+//        if canSpeak {
+//            count += 1
+//        }
+//        temp = " "
+//    }
+//
+//    return count
+//}
+//solution(["aya", "yee", "u", "maa"])
+
+// [1차] 다트 게임
+//func solution(_ dartResult:String) -> Int {
+//    var dartResult = dartResult
+//    var tempScore = 0
+//    var tempScore2 = 0
+//    var score: [Int] = []
+//    var dartArr = dartResult.map{ String($0) }
+//    
+//    for i in dartArr {
+//        switch i {
+//        case "S","D","T":
+//            // S -> 1제곱, D -> 2제곱, T -> 3제곱
+//            tempScore = score.removeLast()
+//            
+//            if i == "D" {
+//                tempScore *= tempScore
+//            } else if i == "T" {
+//                tempScore *= (tempScore * tempScore)
+//            }
+//            
+//            score.append(tempScore)
+//            tempScore = 0
+//            
+//        case "1"..."9":
+//            tempScore += Int(i)!
+//            score.append(tempScore)
+//            
+//        case "0":
+//            if tempScore == 1 { // 직전의 문자가 1이고 직후 0이 오면 점수가 10인 경우
+//                score.removeLast()
+//                tempScore = 10
+//            }
+//            
+//            score.append(tempScore)
+//            
+//        case "*":
+//            tempScore = (score.removeLast()) * 2
+//            if score.count > 0 {
+//                tempScore2 = (score.removeLast()) * 2
+//                score.append(tempScore2)
+//            }
+//            score.append(tempScore)
+//            
+//            (tempScore, tempScore2) = (0, 0)
+//        case "#":
+//            tempScore = score.removeLast()
+//            tempScore *= -1
+//            score.append(tempScore)
+//            tempScore = 0
+//            
+//        default:
+//            print("default")
+//        }
+//    }
+//    return score.reduce(0, +)
+//}
+//solution("1S*2T*3S")
+
+// 문자열 나누기
+//func solution(_ s:String) -> Int {
+//    // 왼쪽부터 오른쪽으로 첫문자와 같은문자,다른문자 갯수가 다르면 문자열 분리 후 갯수 초기화후 다시진행.
+//    var firstChar = s.first!
+//    var sameCount = 0
+//    var diffCount = 0
+//    var str = s
+//    var resultString = str.map{
+//        if sameCount == diffCount, sameCount == 0 {
+//            firstChar = $0
+//        }
+//        if $0 == firstChar {
+//            print("same Char")
+//            sameCount += 1
+//        } else {
+//            print("diff Char")
+//            diffCount += 1
+//        }
+//        
+//        if sameCount == diffCount, sameCount > 0 {
+//            print("let seperate!")
+//            (sameCount, diffCount) = (0, 0)
+//            return "\($0) "
+//        }
+//        
+//        return "\($0)"
+//    }
+//    print("result: \(resultString.joined().split(separator: " "))")
+//    return resultString.joined().split(separator: " ").count
+//}
+//solution("abcdefghijk")
+
+// 바탕화면 정리
+//func solution(_ wallpaper:[String]) -> [Int] {
+//    var (left, right) = (50, 0)
+//    var (top, bottom) = (50, 0)
+//    var locations: [(Int,Int)] = []
+//    
+//    for (indexY, loc) in wallpaper.enumerated() {
+//        for (indexX, i) in loc.enumerated() {
+//            if i == "#" {
+//                locations.append((indexY, indexX))
+//            }
+//        }
+//    }
+//    
+//    for i in locations {
+//        if left > i.1 {
+//            left = i.1
+//        }
+//        
+//        if right < i.1 {
+//            right = i.1
+//        }
+//        
+//        if top > i.0 {
+//            top = i.0
+//        }
+//        
+//        if bottom < i.0 {
+//            bottom = i.0
+//        }
+//    }
+//    
+//    return [top, left, bottom+1, right+1]
+//}
+//solution(["..", "#."])
+
+// 약수의 개수와 덧셈
+func solution(_ left:Int, _ right:Int) -> Int {
+    var sol = (left...right).map{
+        if countOfYaksu($0) % 2 == 0 {
+            return $0
+        } else {
+            return $0 * -1
         }
-        
-        return $0.value > $1.value
-    }.map{
-        $0.key
     }
     
-    return sol
+    return sol.reduce(0, +)
 }
-solution(2, [1, 1, 1, 1])
+
+func countOfYaksu(_ n: Int) -> Int{
+    var count = 0
+    var i = 1
+    while i*i <= n {
+        if n % i == 0{
+            if i * i == n {
+                count += 1
+                
+            } else {
+                count += 2
+            }
+        }
+        i += 1
+    }
+    return count
+}
+
+solution(13, 17)
